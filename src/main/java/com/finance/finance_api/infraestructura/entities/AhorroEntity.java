@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -45,4 +47,7 @@ public class AhorroEntity {
     @ManyToOne
     @JoinColumn(name = "cuenta_id", nullable = false)
     private CuentaEntity cuenta;
+
+    @OneToMany(mappedBy = "ahorro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AporteAhorroEntity> aporte = new ArrayList<>();
 }

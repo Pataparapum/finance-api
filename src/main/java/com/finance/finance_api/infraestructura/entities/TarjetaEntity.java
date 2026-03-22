@@ -47,4 +47,7 @@ public class TarjetaEntity {
     @ManyToOne
     @JoinColumn(name ="cuenta_id", nullable = false)
     private CuentaEntity cuenta;
+
+    @OneToOne(mappedBy = "tarjeta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CreditoEntity creditoTarjeta;
 }

@@ -46,13 +46,13 @@ public class CuentaEntity {
     @JoinColumn(name = "banco_id", nullable = false)
     private BancoEntity banco;
 
-    @OneToMany(mappedBy = "credito", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CreditoEntity> creditos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tarjeta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TarjetaEntity> tarjetas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ahorro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AhorroEntity> ahorros = new ArrayList<>();
 
 
