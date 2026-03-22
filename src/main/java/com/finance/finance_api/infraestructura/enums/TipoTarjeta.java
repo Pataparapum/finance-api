@@ -1,4 +1,9 @@
 package com.finance.finance_api.infraestructura.enums;
 
-public enum tipoTarjeta {
+public enum TipoTarjeta {
+    VISA,
+    MASTERCARD,
+    AMEX,
+    REDCOMPRA,
+    MAGNA
 }

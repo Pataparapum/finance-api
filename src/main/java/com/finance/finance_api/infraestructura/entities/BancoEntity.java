@@ -1,13 +1,12 @@
 package com.finance.finance_api.infraestructura.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -15,9 +14,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class bancoEntity {
+public class BancoEntity {
 
     @Id
-    @Column(name = "id")
-    UUID bancoID;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(name = "nombre", nullable = false, length = 30)
+    private String nombre;
+
+    @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CuentaEntity> cuentas = new ArrayList<>();
+
 }

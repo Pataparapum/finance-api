@@ -1,4 +1,7 @@
 package com.finance.finance_api.infraestructura.enums;
 
-public enum estadoAhorro {
+public enum EstadoAhorro {
+    EN_PROGRESO,
+    COMPLETADA,
+    ABANDONADA
 }
