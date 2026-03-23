@@ -32,9 +32,11 @@ public class TarjetaEntity {
     private String año;
 
     @Column(name = "tipo_tarjeta", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoTarjeta tipotarjeta;
 
     @Column(name = "uso", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoUso uso;
 
     @Column(name = "nombre_titular", nullable = false, length = 30)

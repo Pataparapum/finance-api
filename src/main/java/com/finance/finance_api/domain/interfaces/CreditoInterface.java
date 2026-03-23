@@ -11,5 +11,5 @@ public interface CreditoInterface {
     ApiResponseDto<CreditoDto> getCreditoById(UUID id);
     ApiResponseDto<CreditoDto> postCredito(CreditoDto credito);
     ApiResponseDto<CreditoDto> updateCredito(UUID id, CreditoDto credito);
-    ApiResponseDto<Void> delateCredito(UUID id);
+    ApiResponseDto<Void> deleteCredito(UUID id);
 }

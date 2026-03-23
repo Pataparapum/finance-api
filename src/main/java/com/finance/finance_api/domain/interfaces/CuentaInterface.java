@@ -11,5 +11,5 @@ public interface CuentaInterface {
     ApiResponseDto<CuentaDto> getCuentaByid(UUID id);
     ApiResponseDto<CuentaDto> postCuenta(CuentaDto cuenta);
     ApiResponseDto<CuentaDto> updateCuenta(UUID id, CuentaDto cuenta);
-    ApiResponseDto<Void> delateCuenta(UUID id);
+    ApiResponseDto<Void> deleteCuenta(UUID id);
 }

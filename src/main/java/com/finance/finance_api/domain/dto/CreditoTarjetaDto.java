@@ -15,6 +15,7 @@ public class CreditoTarjetaDto {
 
     private BigInteger limite;
     private BigInteger disponible;
+    private BigInteger usado;
     private int corte;
     private int pago;
 }
