@@ -5,16 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TarjetaCreditoDto {
+public class ApiResponseDto<T> {
 
-    private BigInteger limite;
-    private BigInteger disponible;
-    private int corte;
-    private int pago;
+    private int codigo;
+    private String mensaje;
+    private T data;
+
 }

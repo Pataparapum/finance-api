@@ -19,6 +19,6 @@ public class TarjetaDto {
     private TipoTarjeta tipo;
     private TipoUso uso;
     private String alias;
-    private TarjetaCreditoDto creditoTarjeta;
+    private CreditoTarjetaDto creditoTarjeta;
 
 }
