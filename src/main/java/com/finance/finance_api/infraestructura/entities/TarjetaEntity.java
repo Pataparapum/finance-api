@@ -49,5 +49,5 @@ public class TarjetaEntity {
     private CuentaEntity cuenta;
 
     @OneToOne(mappedBy = "tarjeta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private CreditoEntity creditoTarjeta;
+    private CreditoTarjetaEntity creditoTarjeta;
 }

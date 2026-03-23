@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -44,13 +44,13 @@ public class CreditoEntity {
     private BigDecimal tasa;
 
     @Column(name = "fecha_inicio", nullable = false)
-    private Date inicio;
+    private LocalDate inicio;
 
     @Column(name = "fecha_finalizacion", nullable = false)
-    private Date fin;
+    private LocalDate fin;
 
     @Column(name = "fecha_proximo_pago", nullable = false)
-    private Date proximo;
+    private LocalDate proximo;
 
     @Column(name = "estado", nullable = false)
     @Enumerated(EnumType.STRING)

@@ -8,8 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,10 +35,10 @@ public class AhorroEntity {
     private BigInteger montoObjetivo;
 
     @Column(name = "fecha_inicio", nullable = false)
-    private Date inicio;
+    private LocalDate inicio;
 
     @Column(name = "fecha_finalizacion", nullable = false)
-    private Date fin;
+    private LocalDate fin;
 
     @Column(name = "estado", nullable = false)
     @Enumerated(EnumType.STRING)

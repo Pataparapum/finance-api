@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +26,7 @@ public class AporteAhorroEntity {
     private BigInteger monto;
 
     @Column(name = "fecha", nullable = false)
-    private Date fecha;
+    private LocalDate fecha;
 
     @Column(name = "nota", nullable = false)
     @Builder.Default
