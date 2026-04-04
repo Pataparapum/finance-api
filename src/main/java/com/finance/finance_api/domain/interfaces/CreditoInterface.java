@@ -1,15 +1,16 @@
 package com.finance.finance_api.domain.interfaces;
 
 import com.finance.finance_api.domain.dto.ApiResponseDto;
-import com.finance.finance_api.domain.dto.CreditoDto;
+import com.finance.finance_api.domain.dto.response.CreditoResponseDto;
+import com.finance.finance_api.domain.dto.create.CreditoCreateDto;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CreditoInterface {
-    ApiResponseDto<List<CreditoDto>> getCreditos();
-    ApiResponseDto<CreditoDto> getCreditoById(UUID id);
-    ApiResponseDto<CreditoDto> postCredito(CreditoDto credito);
-    ApiResponseDto<CreditoDto> updateCredito(UUID id, CreditoDto credito);
+    ApiResponseDto<List<CreditoResponseDto>> getCreditos();
+    ApiResponseDto<CreditoResponseDto> getCreditoById(UUID id);
+    ApiResponseDto<CreditoResponseDto> postCredito(CreditoCreateDto credito);
+    ApiResponseDto<CreditoResponseDto> updateCredito(UUID id, CreditoCreateDto credito);
     ApiResponseDto<Void> deleteCredito(UUID id);
 }

@@ -28,4 +28,8 @@ public class BancoEntity {
     @OneToMany(mappedBy = "banco", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CuentaEntity> cuentas = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UsuarioEntity usuario;
+
 }

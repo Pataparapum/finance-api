@@ -49,5 +49,5 @@ public class AhorroEntity {
     private CuentaEntity cuenta;
 
     @OneToMany(mappedBy = "ahorro", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AporteAhorroEntity> aporte = new ArrayList<>();
+    private List<AporteAhorroEntity> aportes = new ArrayList<>();
 }

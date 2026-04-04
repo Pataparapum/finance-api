@@ -1,18 +1,18 @@
-package com.finance.finance_api.domain.dto;
+package com.finance.finance_api.domain.dto.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BancoDto {
+public class BancoCreateDto {
 
-    private String banco;
-    private List<CuentaDto> cuentas;
+    private String nombre;
+    private UUID usuario;
 }

@@ -1,4 +1,4 @@
-package com.finance.finance_api.domain.dto;
+package com.finance.finance_api.domain.dto.create;
 
 import com.finance.finance_api.infraestructura.enums.EstadoAhorro;
 import lombok.AllArgsConstructor;
@@ -8,19 +8,18 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AhorroDto {
+public class AhorroCreateDto {
 
     private String nombre;
     private String descripcion;
-    private BigInteger objetivo;
+    private BigInteger montoObjetivo;
     private LocalDate inicio;
-    private LocalDate finalizacion;
+    private LocalDate fin;
     private EstadoAhorro estado;
-    private List<AporteAhorroDto> aportes;
 }

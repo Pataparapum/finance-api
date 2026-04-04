@@ -1,73 +1,24 @@
 package com.finance.finance_api.domain.mappers;
 
-import com.finance.finance_api.domain.dto.TarjetaDto;
+import com.finance.finance_api.domain.dto.create.TarjetaCreateDto;
+import com.finance.finance_api.domain.dto.response.TarjetaResponseDto;
 import com.finance.finance_api.infraestructura.entities.TarjetaEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class TarjetaMapper {
+@Mapper(componentModel = "spring", uses = {CreditoTarjetaMapper.class})
+public interface TarjetaMapper {
 
-    private TarjetaMapper() {}
+    // tipotarjeta (entity) -> tipo (dto)
+    TarjetaResponseDto toDto(TarjetaEntity entity);
 
-    public static TarjetaDto toDto(TarjetaEntity entity) {
-        if (entity == null) {
-            throw new IllegalArgumentException("TarjetaEntity no puede ser nulo");
-        }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "titular", ignore = true)
+    @Mapping(target = "cuenta", ignore = true)
+    @Mapping(target = "creditoTarjeta", ignore = true)
+    TarjetaEntity toEntity(TarjetaCreateDto dto);
 
-        return TarjetaDto.builder()
-                .numTarjeta(entity.getNumTarjeta())
-                .mes(entity.getMes())
-                .año(entity.getAño())
-                .tipo(entity.getTipotarjeta())
-                .uso(entity.getUso())
-                .alias(entity.getAlias())
-                .creditoTarjeta(entity.getCreditoTarjeta() != null
-                        ? CreditoTarjetaMapper.toDto(entity.getCreditoTarjeta())
-                        : null)
-                .build();
-    }
-
-    public static TarjetaEntity toEntity(TarjetaDto dto) {
-        if (dto == null) {
-            throw new IllegalArgumentException("TarjetaDto no puede ser nulo");
-        }
-        if (dto.getNumTarjeta() == null || dto.getNumTarjeta().isBlank()) {
-            throw new IllegalArgumentException("El número de tarjeta no puede estar vacío");
-        }
-        if (dto.getNumTarjeta().length() > 4) {
-            throw new IllegalArgumentException("El número de tarjeta debe contener máximo 4 dígitos");
-        }
-        if (dto.getMes() == null || dto.getMes().isBlank()) {
-            throw new IllegalArgumentException("El mes de caducidad no puede estar vacío");
-        }
-        if (dto.getAño() == null || dto.getAño().isBlank()) {
-            throw new IllegalArgumentException("El año de caducidad no puede estar vacío");
-        }
-        if (dto.getTipo() == null) {
-            throw new IllegalArgumentException("El tipo de tarjeta no puede ser nulo");
-        }
-        if (dto.getUso() == null) {
-            throw new IllegalArgumentException("El tipo de uso de la tarjeta no puede ser nulo");
-        }
-
-        return TarjetaEntity.builder()
-                .numTarjeta(dto.getNumTarjeta())
-                .mes(dto.getMes())
-                .año(dto.getAño())
-                .tipotarjeta(dto.getTipo())
-                .uso(dto.getUso())
-                .alias(dto.getAlias() != null ? dto.getAlias() : "sin alias")
-                .build();
-    }
-
-    public static List<TarjetaDto> toDtoList(List<TarjetaEntity> entities) {
-        if (entities == null) {
-            return Collections.emptyList();
-        }
-        return entities.stream()
-                .map(TarjetaMapper::toDto)
-                .collect(Collectors.toList());
-    }
+    List<TarjetaResponseDto> toDtoList(List<TarjetaEntity> entities);
 }

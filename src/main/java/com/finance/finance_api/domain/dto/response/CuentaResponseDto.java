@@ -1,4 +1,4 @@
-package com.finance.finance_api.domain.dto;
+package com.finance.finance_api.domain.dto.response;
 
 import com.finance.finance_api.infraestructura.enums.TipoCuenta;
 import lombok.AllArgsConstructor;
@@ -8,19 +8,21 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CuentaDto {
+public class CuentaResponseDto {
 
+    private UUID id;
     private TipoCuenta tipoCuenta;
     private BigInteger saldo;
     private String alias;
     private String titular;
-    private String numeroCuenta;
-    private List<TarjetaDto> tarjetas;
-    private List<CreditoDto> credito;
-    private List<AhorroDto> ahorro;
+    private String cuenta;
+    private List<TarjetaResponseDto> tarjetas;
+    private List<CreditoResponseDto> creditos;
+    private List<AhorroResponseDto> ahorros;
 }

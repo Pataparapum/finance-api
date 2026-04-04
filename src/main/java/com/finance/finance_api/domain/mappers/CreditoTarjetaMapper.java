@@ -1,86 +1,41 @@
 package com.finance.finance_api.domain.mappers;
 
-import com.finance.finance_api.domain.dto.CreditoTarjetaDto;
+import com.finance.finance_api.domain.dto.create.CreditoCreateDto;
+import com.finance.finance_api.domain.dto.response.CreditoTarjetaResponseDto;
 import com.finance.finance_api.infraestructura.entities.CreditoTarjetaEntity;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
-import java.math.BigInteger;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class CreditoTarjetaMapper {
+@Mapper(componentModel = "spring")
+public interface CreditoTarjetaMapper {
 
-    private CreditoTarjetaMapper() {}
+    @Mapping(target = "usado", ignore = true)   // se calcula en @AfterMapping
+    CreditoTarjetaResponseDto toDto(CreditoTarjetaEntity entity);
 
-    public static CreditoTarjetaDto toDto(CreditoTarjetaEntity entity) {
-        if (entity == null) {
-            throw new IllegalArgumentException("CreditoTarjetaEntity no puede ser nulo");
-        }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "tarjeta", ignore = true)
+    CreditoTarjetaEntity toEntity(CreditoCreateDto dto);
 
-        BigInteger limite = entity.getLimite();
-        BigInteger disponible = entity.getDisponible();
+    List<CreditoTarjetaResponseDto> toDtoList(List<CreditoTarjetaEntity> entities);
 
-        if (limite == null) {
-            throw new IllegalStateException("El límite de crédito de la tarjeta no puede ser nulo");
+    // Calcula usado = limite - disponible después del mapeo base
+    @AfterMapping
+    default void calcularUsado(CreditoTarjetaEntity entity, @MappingTarget CreditoTarjetaResponseDto dto) {
+        if (entity.getLimite() == null || entity.getDisponible() == null) {
+            throw new IllegalStateException(
+                    "No se puede calcular el crédito usado: límite o disponible es nulo (id: "
+                            + entity.getId() + ")"
+            );
         }
-        if (disponible == null) {
-            throw new IllegalStateException("El crédito disponible de la tarjeta no puede ser nulo");
+        if (entity.getDisponible().compareTo(entity.getLimite()) > 0) {
+            throw new IllegalStateException(
+                    "El crédito disponible no puede ser mayor al límite (id: " + entity.getId() + ")"
+            );
         }
-        if (disponible.compareTo(limite) > 0) {
-            throw new IllegalStateException("El crédito disponible no puede ser mayor al límite");
-        }
-
-        BigInteger usado = limite.subtract(disponible);
-
-        return CreditoTarjetaDto.builder()
-                .limite(limite)
-                .disponible(disponible)
-                .usado(usado)
-                .corte(entity.getCorte())
-                .pago(entity.getPago())
-                .build();
-    }
-
-    public static CreditoTarjetaEntity toEntity(CreditoTarjetaDto dto) {
-        if (dto == null) {
-            throw new IllegalArgumentException("CreditoTarjetaDto no puede ser nulo");
-        }
-        if (dto.getLimite() == null) {
-            throw new IllegalArgumentException("El límite de crédito no puede ser nulo");
-        }
-        if (dto.getLimite().compareTo(BigInteger.ZERO) <= 0) {
-            throw new IllegalArgumentException("El límite de crédito debe ser mayor a cero");
-        }
-        if (dto.getDisponible() == null) {
-            throw new IllegalArgumentException("El crédito disponible no puede ser nulo");
-        }
-        if (dto.getDisponible().compareTo(BigInteger.ZERO) < 0) {
-            throw new IllegalArgumentException("El crédito disponible no puede ser negativo");
-        }
-        if (dto.getDisponible().compareTo(dto.getLimite()) > 0) {
-            throw new IllegalArgumentException("El crédito disponible no puede ser mayor al límite");
-        }
-        if (dto.getCorte() < 1 || dto.getCorte() > 31) {
-            throw new IllegalArgumentException("El día de corte debe estar entre 1 y 31");
-        }
-        if (dto.getPago() < 1 || dto.getPago() > 31) {
-            throw new IllegalArgumentException("El día de pago debe estar entre 1 y 31");
-        }
-
-        return CreditoTarjetaEntity.builder()
-                .limite(dto.getLimite())
-                .disponible(dto.getDisponible())
-                .corte(dto.getCorte())
-                .pago(dto.getPago())
-                .build();
-    }
-
-    public static List<CreditoTarjetaDto> toDtoList(List<CreditoTarjetaEntity> entities) {
-        if (entities == null) {
-            return Collections.emptyList();
-        }
-        return entities.stream()
-                .map(CreditoTarjetaMapper::toDto)
-                .collect(Collectors.toList());
+        dto.setUsado(entity.getLimite().subtract(entity.getDisponible()));
     }
 }

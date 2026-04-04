@@ -28,10 +28,10 @@ public class CreditoTarjetaEntity {
     private BigInteger disponible;
 
     @Column(name = "dia_corte", nullable = false)
-    private int corte;
+    private byte corte;
 
     @Column(name = "dia_pago", nullable = false)
-    private int pago;
+    private byte pago;
 
     @OneToOne
     @JoinColumn(name = "tarjeta_id", nullable = false, unique = true)

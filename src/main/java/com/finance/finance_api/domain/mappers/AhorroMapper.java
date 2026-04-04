@@ -1,87 +1,55 @@
 package com.finance.finance_api.domain.mappers;
 
-import com.finance.finance_api.domain.dto.AhorroDto;
+import com.finance.finance_api.domain.dto.create.AhorroCreateDto;
+import com.finance.finance_api.domain.dto.response.AhorroResponseDto;
 import com.finance.finance_api.infraestructura.entities.AhorroEntity;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
-import java.util.Collections;
+import java.math.BigInteger;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class AhorroMapper {
+@Mapper(componentModel = "spring", uses = {AporteAhorroMapper.class})
+public interface AhorroMapper {
 
-    private AhorroMapper() {}
+    @Mapping(target = "montoMensual", ignore = true)    // se calcula en @AfterMapping
+    AhorroResponseDto toDto(AhorroEntity entity);
 
-    public static AhorroDto toDto(AhorroEntity entity) {
-        if (entity == null) {
-            throw new IllegalArgumentException("AhorroEntity no puede ser nulo");
-        }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "cuenta", ignore = true)
+    AhorroEntity toEntity(AhorroCreateDto dto);
 
-        return AhorroDto.builder()
-                .nombre(entity.getNombre())
-                .descripcion(entity.getDescripcion())
-                .objetivo(entity.getMontoObjetivo())
-                .inicio(entity.getInicio())
-                .finalizacion(entity.getFin())
-                .estado(entity.getEstado())
-                .aportes(entity.getAporte() != null
-                        ? entity.getAporte().stream()
-                        .map(AporteAhorroMapper::toDto)
-                        .collect(Collectors.toList())
-                        : Collections.emptyList())
-                .build();
-    }
+    List<AhorroResponseDto> toDtoList(List<AhorroEntity> entities);
 
-    public static AhorroEntity toEntity(AhorroDto dto) {
-        if (dto == null) {
-            throw new IllegalArgumentException("AhorroDto no puede ser nulo");
+    // Calcula montoMensual = objetivo / meses entre inicio y fin (mínimo 1 mes)
+    @AfterMapping
+    default void calcularMontoMensual(AhorroEntity entity, @MappingTarget AhorroResponseDto dto) {
+        if (entity.getMontoObjetivo() == null) {
+            throw new IllegalStateException(
+                    "El monto objetivo no puede ser nulo para calcular el monto mensual (id: " + entity.getId() + ")"
+            );
         }
-        if (dto.getNombre() == null || dto.getNombre().isBlank()) {
-            throw new IllegalArgumentException("El nombre del ahorro no puede estar vacío");
+        if (entity.getInicio() == null || entity.getFin() == null) {
+            throw new IllegalStateException(
+                    "Las fechas de inicio y fin son necesarias para calcular el monto mensual (id: " + entity.getId() + ")"
+            );
         }
-        if (dto.getNombre().length() > 30) {
-            throw new IllegalArgumentException("El nombre del ahorro no puede superar los 30 caracteres");
-        }
-        if (dto.getDescripcion() == null || dto.getDescripcion().isBlank()) {
-            throw new IllegalArgumentException("La descripción del ahorro no puede estar vacía");
-        }
-        if (dto.getDescripcion().length() > 30) {
-            throw new IllegalArgumentException("La descripción del ahorro no puede superar los 30 caracteres");
-        }
-        if (dto.getObjetivo() == null) {
-            throw new IllegalArgumentException("El monto objetivo del ahorro no puede ser nulo");
-        }
-        if (dto.getObjetivo().signum() <= 0) {
-            throw new IllegalArgumentException("El monto objetivo del ahorro debe ser mayor a cero");
-        }
-        if (dto.getInicio() == null) {
-            throw new IllegalArgumentException("La fecha de inicio del ahorro no puede ser nula");
-        }
-        if (dto.getFinalizacion() == null) {
-            throw new IllegalArgumentException("La fecha de finalización del ahorro no puede ser nula");
-        }
-        if (dto.getFinalizacion().isBefore(dto.getInicio())) {
-            throw new IllegalArgumentException("La fecha de finalización no puede ser anterior a la de inicio");
-        }
-        if (dto.getEstado() == null) {
-            throw new IllegalArgumentException("El estado del ahorro no puede ser nulo");
+        if (entity.getFin().isBefore(entity.getInicio())) {
+            throw new IllegalStateException(
+                    "La fecha de fin no puede ser anterior a la de inicio (id: " + entity.getId() + ")"
+            );
         }
 
-        return AhorroEntity.builder()
-                .nombre(dto.getNombre())
-                .descripcion(dto.getDescripcion())
-                .montoObjetivo(dto.getObjetivo())
-                .inicio(dto.getInicio())
-                .fin(dto.getFinalizacion())
-                .estado(dto.getEstado())
-                .build();
-    }
+        long meses = ChronoUnit.MONTHS.between(entity.getInicio(), entity.getFin());
 
-    public static List<AhorroDto> toDtoList(List<AhorroEntity> entities) {
-        if (entities == null) {
-            return Collections.emptyList();
+        // Si el plazo es menor a un mes se trata como 1 mes para evitar división por cero
+        if (meses < 1) {
+            meses = 1;
         }
-        return entities.stream()
-                .map(AhorroMapper::toDto)
-                .collect(Collectors.toList());
+
+        dto.setMontoMensual(entity.getMontoObjetivo().divide(BigInteger.valueOf(meses)));
     }
 }

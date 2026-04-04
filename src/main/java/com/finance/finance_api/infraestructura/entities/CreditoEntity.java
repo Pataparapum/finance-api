@@ -32,13 +32,13 @@ public class CreditoEntity {
     private BigInteger montoOriginal;
 
     @Column(name = "cuotas_totales", nullable = false)
-    private int cuotasTotales;
+    private byte cuotasTotales;
 
     @Column(name = "cuota_mensual", nullable = false)
-    private int cuotaMensual;
+    private byte cuotaMensual;
 
     @Column(name = "cuotas_pagadas", nullable = false)
-    private int cuotasPagadas;
+    private byte cuotasPagadas;
 
     @Column(name = "tasa_interes", nullable = false)
     private BigDecimal tasa;
