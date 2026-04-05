@@ -22,7 +22,7 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 20, unique = true)
     private String name;
 
     @Column(name = "password", nullable = false)

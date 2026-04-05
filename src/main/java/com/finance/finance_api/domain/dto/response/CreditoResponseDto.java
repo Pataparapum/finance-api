@@ -23,7 +23,7 @@ public class CreditoResponseDto {
     private byte cuotasTotales;
     private byte cuotaMensual;
     private byte cuotasPagadas;
-    private byte cuotasRestante;
+    private byte cuotasRestantes;
     private BigDecimal tasa;
     private LocalDate inicio;
     private LocalDate fin;

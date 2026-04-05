@@ -18,6 +18,7 @@ public interface BancoMapper {
     // banco (dto) -> nombre (entity)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "cuentas", ignore = true)
+    @Mapping(target = "usuario", ignore = true)
     BancoEntity toEntity(BancoCreateDto dto);
 
     List<BancoResponseDto> toDtoList(List<BancoEntity> entities);

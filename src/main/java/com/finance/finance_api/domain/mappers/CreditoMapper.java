@@ -35,6 +35,6 @@ public interface CreditoMapper {
                     "Las cuotas pagadas no pueden superar las cuotas totales (id: " + entity.getId() + ")"
             );
         }
-        dto.setCuotasRestante((byte)(entity.getCuotasTotales() - entity.getCuotasPagadas()));
+        dto.setCuotasRestantes((byte)(entity.getCuotasTotales() - entity.getCuotasPagadas()));
     }
 }
