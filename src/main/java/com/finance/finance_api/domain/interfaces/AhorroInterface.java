@@ -11,6 +11,6 @@ public interface AhorroInterface {
     ApiResponseDto<List<AhorroResponseDto>> getAhorros();
     ApiResponseDto<AhorroResponseDto> getAhorroById(UUID id);
     ApiResponseDto<AhorroResponseDto> postAhorro(AhorroCreateDto ahorro);
-    ApiResponseDto<AhorroResponseDto> updateAhorro(UUID id, AhorroCreateDto ahorro);
+    ApiResponseDto<AhorroResponseDto> putAhorro(UUID id, AhorroCreateDto ahorro);
     ApiResponseDto<Void> deleteAhorro(UUID id);
 }

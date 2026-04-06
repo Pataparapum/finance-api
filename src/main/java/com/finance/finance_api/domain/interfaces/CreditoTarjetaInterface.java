@@ -11,6 +11,6 @@ public interface CreditoTarjetaInterface {
     ApiResponseDto<List<CreditoTarjetaResponseDto>> getCreditoTarjetas();
     ApiResponseDto<CreditoTarjetaResponseDto> getCreditoTarjetaById(UUID id);
     ApiResponseDto<CreditoTarjetaResponseDto> postCreditotarjeta(CreditoTarjetaCreateDto creditoTarjeta);
-    ApiResponseDto<CreditoTarjetaResponseDto> updateCreditoTarjeta(UUID id, CreditoTarjetaCreateDto creditoTarjeta);
+    ApiResponseDto<CreditoTarjetaResponseDto> putCreditoTarjeta(UUID id, CreditoTarjetaCreateDto creditoTarjeta);
     ApiResponseDto<CreditoTarjetaResponseDto> deleteCreditoTarjeta(UUID id);
 }

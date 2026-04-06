@@ -11,6 +11,6 @@ public interface AporteAhorroInterface {
     ApiResponseDto<List<AporteAhorroResponseDto>> getAportes();
     ApiResponseDto<AporteAhorroResponseDto> getAporteById(UUID id);
     ApiResponseDto<AporteAhorroResponseDto> postAporte(AporteAhorroCreateDto aporte);
-    ApiResponseDto<AporteAhorroResponseDto> updateAporte(UUID id, AporteAhorroCreateDto aporte);
+    ApiResponseDto<AporteAhorroResponseDto> putAporte(UUID id, AporteAhorroCreateDto aporte);
     ApiResponseDto<Void> deleteAporte(UUID id);
 }

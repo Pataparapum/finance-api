@@ -6,6 +6,7 @@ import com.finance.finance_api.domain.dto.response.BancoResponseDto;
 import com.finance.finance_api.infraestructura.entities.BancoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public interface BancoMapper {
     @Mapping(target = "cuentas", ignore = true)
     @Mapping(target = "usuario", ignore = true)
     BancoEntity toEntity(BancoCreateDto dto);
+
 
     List<BancoResponseDto> toDtoList(List<BancoEntity> entities);
 }

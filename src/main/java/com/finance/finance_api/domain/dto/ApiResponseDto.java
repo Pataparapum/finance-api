@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ApiResponseDto<T> {
 
-    private int codigo;
     private String mensaje;
     private T data;
 

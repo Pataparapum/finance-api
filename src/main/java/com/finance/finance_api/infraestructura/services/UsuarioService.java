@@ -10,6 +10,7 @@ import com.finance.finance_api.domain.mappers.UsuarioMapper;
 import com.finance.finance_api.infraestructura.entities.UsuarioEntity;
 import com.finance.finance_api.infraestructura.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,15 +22,15 @@ public class UsuarioService implements UsuarioInterface {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public ApiResponseDto<List<UsuarioResponseDto>> getUsers() {
 
-        List<UsuarioEntity> entity = usuarioRepository.findAll();
-        List<UsuarioResponseDto> response = usuarioMapper.toDtoList(entity);
+        List<UsuarioEntity> entities = usuarioRepository.findAll();
+        List<UsuarioResponseDto> response = usuarioMapper.toDtoList(entities);
 
         return ApiResponseDto.<List<UsuarioResponseDto>>builder()
-                .codigo(200)
                 .mensaje("Usuarios obtenidos")
                 .data(response)
                 .build();
@@ -43,7 +44,6 @@ public class UsuarioService implements UsuarioInterface {
 
         UsuarioResponseDto response = usuarioMapper.toDto(entity);
         return ApiResponseDto.<UsuarioResponseDto>builder()
-                .codigo(200)
                 .mensaje("Usuario de id " + id + " encontrado")
                 .data(response)
                 .build();
@@ -52,18 +52,19 @@ public class UsuarioService implements UsuarioInterface {
     @Override
     public ApiResponseDto<UsuarioResponseDto> postUser(UsuarioCreateDto usuario) {
 
-        UsuarioEntity user = usuarioRepository.findByName(usuario.getName());
+        if (usuarioRepository.findByName(usuario.getName()).isPresent()) {
+            throw new ResourceAlreadyExistsException("Ya existe el usuario con el nombre " + usuario.getName());
+        };
 
-        if (user != null) {
-            throw new ResourceAlreadyExistsException("Nombre de usuario ya esta en uso");
-        }
+        UsuarioEntity entity = usuarioMapper.toEntity(usuario);
 
-        UsuarioEntity response = usuarioRepository.save(usuarioMapper.toEntity(usuario));
+        entity.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+        UsuarioResponseDto response = usuarioMapper.toDto(usuarioRepository.save(entity));
 
         return ApiResponseDto.<UsuarioResponseDto>builder()
-                .codigo(200)
                 .mensaje("usuario creado con exito")
-                .data(usuarioMapper.toDto(response))
+                .data(response)
                 .build();
 
     }
@@ -71,15 +72,21 @@ public class UsuarioService implements UsuarioInterface {
     @Override
     public ApiResponseDto<UsuarioResponseDto> putUser(UUID id, UsuarioCreateDto usuario) {
 
-        usuarioRepository.findById(id)
+        UsuarioEntity entity = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("El usuario de id " + id + " no existe"));
 
-        UsuarioEntity response = usuarioRepository.save(usuarioMapper.toEntity(usuario));
+        usuarioMapper.updateEntity(usuario, entity);
+
+        if (usuario.getPassword() != null && !usuario.getPassword().isBlank()) {
+            entity.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
+
+        UsuarioEntity updated = usuarioRepository.save(entity);
+        UsuarioResponseDto response = usuarioMapper.toDto(updated);
 
         return ApiResponseDto.<UsuarioResponseDto>builder()
-                .codigo(200)
                 .mensaje("Usuario actualizado")
-                .data(usuarioMapper.toDto(response))
+                .data(response)
                 .build();
     }
 
@@ -92,7 +99,6 @@ public class UsuarioService implements UsuarioInterface {
         usuarioRepository.deleteById(id);
 
         return ApiResponseDto.<Void>builder()
-                .codigo(200)
                 .mensaje("Usuario borrado con exito")
                 .data(null)
                 .build();

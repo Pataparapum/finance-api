@@ -15,7 +15,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(ApiResponseDto.<Void>builder()
-                        .codigo(404)
                         .mensaje(ex.getMessage())
                         .data(null)
                         .build());
@@ -26,7 +25,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponseDto.<Void>builder()
-                        .codigo(500)
                         .mensaje("Error interno del servidor")
                         .data(null)
                         .build());
@@ -37,7 +35,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(ApiResponseDto.<Void>builder()
-                        .codigo(409)
                         .mensaje(ex.getMessage())
                         .data(null)
                         .build());

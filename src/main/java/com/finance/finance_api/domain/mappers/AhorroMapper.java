@@ -22,6 +22,11 @@ public interface AhorroMapper {
     @Mapping(target = "cuenta", ignore = true)
     AhorroEntity toEntity(AhorroCreateDto dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "cuenta", ignore = true)
+    @Mapping(target = "aporte", ignore = true)
+    void updateEntity(AhorroCreateDto dto, @MappingTarget AhorroEntity entity);
+
     List<AhorroResponseDto> toDtoList(List<AhorroEntity> entities);
 
     // Calcula montoMensual = objetivo / meses entre inicio y fin (mínimo 1 mes)

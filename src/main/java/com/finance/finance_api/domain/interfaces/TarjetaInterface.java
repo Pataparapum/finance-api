@@ -11,6 +11,5 @@ public interface TarjetaInterface {
     ApiResponseDto<List<TarjetaResponseDto>> getTarjetas();
     ApiResponseDto<TarjetaResponseDto> getTarjetaById(UUID id);
     ApiResponseDto<TarjetaResponseDto> postTarjeta(TarjetaCreateDto tarjeta);
-    ApiResponseDto<TarjetaResponseDto> updateTarjeta(UUID id, TarjetaCreateDto tarjeta);
     ApiResponseDto<Void> deleteTarjeta(UUID id);
 }

@@ -11,6 +11,5 @@ public interface BancoInterface {
     ApiResponseDto<List<BancoResponseDto>> getBancos();
     ApiResponseDto<BancoResponseDto> getBancoById(UUID id);
     ApiResponseDto<BancoResponseDto> postBanco(BancoCreateDto banco);
-    ApiResponseDto<BancoResponseDto> updateBanco(UUID id, BancoCreateDto banco);
     ApiResponseDto<Void> deleteBanco(UUID id);
 }

@@ -20,6 +20,10 @@ public interface CreditoMapper {
     @Mapping(target = "cuenta", ignore = true)
     CreditoEntity toEntity(CreditoCreateDto dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "cuenta", ignore = true)
+    void updateEntity(CreditoCreateDto dto, @MappingTarget CreditoEntity entity);
+
     List<CreditoResponseDto> toDtoList(List<CreditoEntity> entities);
 
     // Calcula cuotasRestantes = cuotasTotales - cuotasPagadas después del mapeo base

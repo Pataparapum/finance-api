@@ -5,6 +5,7 @@ import com.finance.finance_api.domain.dto.response.AporteAhorroResponseDto;
 import com.finance.finance_api.infraestructura.entities.AporteAhorroEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -16,6 +17,10 @@ public interface AporteAhorroMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "ahorro", ignore = true)
     AporteAhorroEntity toEntity(AporteAhorroCreateDto dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ahorro", ignore = true)
+    void updateEntity(AporteAhorroCreateDto dto, @MappingTarget AporteAhorroEntity entity);
 
     List<AporteAhorroResponseDto> toDtoList(List<AporteAhorroEntity> entities);
 }

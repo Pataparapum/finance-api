@@ -11,6 +11,5 @@ public interface CuentaInterface {
     ApiResponseDto<List<CuentaResponseDto>> getCuentas();
     ApiResponseDto<CuentaResponseDto> getCuentaByid(UUID id);
     ApiResponseDto<CuentaResponseDto> postCuenta(CuentaCreateDto cuenta);
-    ApiResponseDto<CuentaResponseDto> updateCuenta(UUID id, CuentaCreateDto cuenta);
     ApiResponseDto<Void> deleteCuenta(UUID id);
 }
