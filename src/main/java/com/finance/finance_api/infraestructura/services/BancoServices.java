@@ -25,6 +25,10 @@ public class BancoServices implements BancoInterface {
     public ApiResponseDto<List<BancoResponseDto>> getBancos() {
 
         List<BancoEntity> entities = bancoRepository.findAll();
+
+        if (entities.isEmpty()) {
+            throw new ResourceNotFoundException("no se encontraron bancos");
+        }
         List<BancoResponseDto> response = bancoMapper.toDtoList(entities);
 
         return ApiResponseDto.<List<BancoResponseDto>>builder()
