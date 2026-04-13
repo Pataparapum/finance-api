@@ -24,7 +24,7 @@ public interface AhorroMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "cuenta", ignore = true)
-    @Mapping(target = "aporte", ignore = true)
+    @Mapping(target = "aportes", ignore = true)
     void updateEntity(AhorroCreateDto dto, @MappingTarget AhorroEntity entity);
 
     List<AhorroResponseDto> toDtoList(List<AhorroEntity> entities);

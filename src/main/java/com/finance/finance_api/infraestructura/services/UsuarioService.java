@@ -10,7 +10,7 @@ import com.finance.finance_api.domain.mappers.UsuarioMapper;
 import com.finance.finance_api.infraestructura.entities.UsuarioEntity;
 import com.finance.finance_api.infraestructura.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +22,16 @@ public class UsuarioService implements UsuarioInterface {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ApiResponseDto<List<UsuarioResponseDto>> getUsers() {
 
         List<UsuarioEntity> entities = usuarioRepository.findAll();
+
+        if (entities.isEmpty()) {
+            throw new ResourceNotFoundException("La base de datos no tiene usuarios");
+        }
         List<UsuarioResponseDto> response = usuarioMapper.toDtoList(entities);
 
         return ApiResponseDto.<List<UsuarioResponseDto>>builder()
