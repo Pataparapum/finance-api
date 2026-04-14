@@ -1,6 +1,5 @@
 package com.finance.finance_api.domain.mappers;
 
-import com.finance.finance_api.domain.dto.create.CreditoCreateDto;
 import com.finance.finance_api.domain.dto.create.CreditoTarjetaCreateDto;
 import com.finance.finance_api.domain.dto.response.CreditoTarjetaResponseDto;
 import com.finance.finance_api.infraestructura.entities.CreditoTarjetaEntity;
@@ -19,7 +18,7 @@ public interface CreditoTarjetaMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tarjeta", ignore = true)
-    CreditoTarjetaEntity toEntity(CreditoCreateDto dto);
+    CreditoTarjetaEntity toEntity(CreditoTarjetaCreateDto dto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tarjeta", ignore = true)
